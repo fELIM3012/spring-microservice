@@ -1,9 +1,9 @@
 package spring.microservice.controllers;
 
 import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +17,6 @@ import spring.microservice.entities.User;
 import spring.microservice.services.AuthService;
 import spring.microservice.services.UserService;
 
-import javax.naming.AuthenticationException;
-
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -31,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public Mono<ResponseEntity<LoginResponse>> login(@RequestBody @Valid LoginRequest loginRequest) {
-        return authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword())
+        return authService.authenticate(loginRequest)
                 .map(token -> ResponseEntity.ok(
                         LoginResponse.builder()
                                 .message("Successfully login")
@@ -39,16 +37,16 @@ public class AuthController {
                                 .build()
                 ))
                 .switchIfEmpty(Mono.error(
-                        new AuthenticationException("Failed to find user with this id and password")
+                        new BadCredentialsException("Failed to find user with this id and password")
                 ));
     }
 
     @PostMapping("/register")
     public Mono<ResponseEntity<BaseResponse<User>>> register(
-            @RequestBody @Valid CreateUserRequest createUserRequest) throws AuthenticationException {
+            @RequestBody @Valid CreateUserRequest createUserRequest) throws BadCredentialsException {
 
         if (!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
-            throw new AuthenticationException("Password and confirm password must match");
+            throw new BadCredentialsException("Password and confirm password must match");
         }
 
         return Mono.fromSupplier(() -> {

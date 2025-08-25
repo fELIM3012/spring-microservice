@@ -22,7 +22,7 @@ public class UserDetailService implements ReactiveUserDetailsService {
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        return Mono.fromCallable(() -> userRepository.findByUsername(username))
+        return Mono.fromCallable(() -> userRepository.findByUsernameOrEmail(username))
                 .filter(java.util.Optional::isPresent)
                 .map(java.util.Optional::get)
                 .map(this::mapUserToUserDetails)

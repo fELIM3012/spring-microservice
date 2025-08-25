@@ -28,7 +28,7 @@ public class SecurityConfig extends BaseSecurityConfig {
 
     @Bean
     @Override
-    public ReactiveJwtDecoder jwtDecoder() {
+    protected ReactiveJwtDecoder jwtDecoder() {
         return super.jwtDecoder();
     }
 }

@@ -24,7 +24,8 @@ public class UserService {
     public BaseResponse<User> createUser(CreateUserRequest createUserRequest){
 
         String username = createUserRequest.getUsername();
-        boolean existingUser = userRepository.existsByUsername(username);
+        String email = createUserRequest.getEmail();
+        boolean existingUser = userRepository.existsByUsernameOrEmail(username, email);
 
         if(existingUser){
             throw new ValidationException("User already exists");

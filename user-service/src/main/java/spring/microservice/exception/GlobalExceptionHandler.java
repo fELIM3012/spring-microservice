@@ -1,6 +1,7 @@
 package spring.microservice.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,11 +10,11 @@ import reactor.core.publisher.Mono;
 import spring.microservice.dto.response.BaseResponse;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Mono<BaseResponse<String>> handleAuthenticationException(AuthenticationException ex) {
+    public Mono<BaseResponse<String>> handleAuthenticationException(BadCredentialsException ex) {
         return Mono.just(
                 BaseResponse.<String>builder()
                         .message(ex.getMessage())
@@ -24,12 +25,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Mono<BaseResponse<String>> handleGeneralException(Exception ex) {
-        return Mono.just(
-                BaseResponse.<String>builder()
-                        .message(ex.getMessage())
-                        .payload("Internal server error")
-                        .build()
-        );
+    public Mono<BaseResponse<String>> handleGeneralException(AuthenticationException ex) {
+        return super.handleGeneralException(ex);
     }
 }

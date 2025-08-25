@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import spring.microservice.dto.request.CustomUserDetails;
+import spring.microservice.dto.request.LoginRequest;
+
 import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -30,9 +32,10 @@ public class AuthService {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    public Mono<String> authenticate(String username, String password) {
-        return userDetailsService.findByUsername(username)
-                .filter(userDetails -> passwordEncoder.matches(password, userDetails.getPassword()))
+    public Mono<String> authenticate(LoginRequest loginRequest) {
+
+        return userDetailsService.findByUsername(loginRequest.getCredentials())
+                .filter(userDetails -> passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword()))
                 .map(userDetails -> {
                     CustomUserDetails customUser = (CustomUserDetails) userDetails;
                     Map<String, Object> claims = new HashMap<>();

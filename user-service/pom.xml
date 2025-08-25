@@ -69,7 +69,6 @@
             <artifactId>redisson</artifactId>
         </dependency>
 
-        <!-- JWT (untuk generate token di AuthService) -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -87,10 +86,13 @@
 
         <!-- Rate Limiting -->
         <dependency>
-            <groupId>com.github.vladimir-bukhtoyarov</groupId>
+            <groupId>com.bucket4j</groupId>
             <artifactId>bucket4j-core</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.bucket4j</groupId>
+            <artifactId>bucket4j-jcache</artifactId>
+        </dependency>
         <!-- MapStruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
