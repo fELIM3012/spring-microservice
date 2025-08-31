@@ -20,8 +20,6 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebFluxSecurity
 public class SecurityConfig extends BaseSecurityConfig {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
 
     @Bean
     @Override

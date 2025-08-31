@@ -26,7 +26,6 @@ public abstract class BaseSecurityConfig {
                 .build();
     }
 
-
     protected abstract void configureAuthorizeExchange(
            AuthorizeExchangeSpec exchanges
     );
@@ -35,7 +34,6 @@ public abstract class BaseSecurityConfig {
         SecretKey secretKey = getSigningKey();
         return NimbusReactiveJwtDecoder.withSecretKey(secretKey).build();
     }
-
 
     protected SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);

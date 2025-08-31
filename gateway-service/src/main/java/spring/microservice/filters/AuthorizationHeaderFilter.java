@@ -18,6 +18,7 @@ public class AuthorizationHeaderFilter {
                         .request(r -> r.headers(headers -> headers.set(HttpHeaders.AUTHORIZATION, authHeader)))
                         .build();
             }
+
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {}));
         };
     }
