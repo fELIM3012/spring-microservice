@@ -15,7 +15,7 @@ public class AuthorizationHeaderFilter {
             String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
             if (authHeader != null) {
                 exchange = exchange.mutate()
-                        .request(r -> r.headers(headers -> headers.set(HttpHeaders.AUTHORIZATION, authHeader)))
+                        .request(r -> r.headers(h -> h.set(HttpHeaders.AUTHORIZATION, authHeader)))
                         .build();
             }
 
