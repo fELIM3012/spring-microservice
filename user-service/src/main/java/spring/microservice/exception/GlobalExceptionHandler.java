@@ -2,7 +2,6 @@ package spring.microservice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,7 +24,7 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Mono<BaseResponse<String>> handleGeneralException(AuthenticationException ex) {
+    public Mono<BaseResponse<String>> handleGeneralException(Exception ex) {
         return super.handleGeneralException(ex);
     }
 }
