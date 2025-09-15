@@ -24,9 +24,6 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Autowired
-    UserMapper userMapper;
-
     public BaseResponse<User> createUser(CreateUserRequest createUserRequest){
 
         String username = createUserRequest.getUsername();
@@ -57,7 +54,7 @@ public class UserService {
             throw new ValidationException("User is not exists");
         }
 
-        GetUserResponse getUserResponse = userMapper.map(user.get());
+        GetUserResponse getUserResponse = UserMapper.INSTANCE.map(user.get());
         return BaseResponse
                 .<GetUserResponse>builder()
                 .message("successfully find user")

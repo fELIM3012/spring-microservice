@@ -1,5 +1,13 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
+
+for /f "usebackq tokens=1,* delims==" %%a in (".env") do (
+    set "line=%%a"
+    if not "!line!"=="" (
+        set "%%a=%%b"
+    )
+)
+echo Environment variables loaded!
 
 echo Starting Eureka Server...
 start "Eureka Server" cmd /k "mvn spring-boot:run -pl eureka-server"
