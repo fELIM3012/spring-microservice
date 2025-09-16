@@ -5,6 +5,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class AuthService {
                     claims.put("email", customUser.getEmail());
                     return generateJwtToken(customUser.getUsername(), claims);
                 })
-                .switchIfEmpty(Mono.error(new Exception("Invalid credentials")));
+                .switchIfEmpty(Mono.error(new BadCredentialsException("Invalid credentials")));
     }
 
     private String generateToken(String subject, Map<String, Object> claims, Long expirationSeconds) {
