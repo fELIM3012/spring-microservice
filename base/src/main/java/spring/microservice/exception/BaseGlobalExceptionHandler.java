@@ -2,15 +2,12 @@ package spring.microservice.exception;
 
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import reactor.core.publisher.Mono;
 import spring.microservice.dto.response.BaseResponse;
-import jakarta.servlet.http.HttpServletRequest;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +28,7 @@ public abstract class BaseGlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Mono<BaseResponse<Map<String , List<String>>>> handleMethodArgumentNotValidException(
-            MethodArgumentNotValidException ex,
-            HttpServletRequest request) {
+            MethodArgumentNotValidException ex) {
 
         Map<String , List<String>> messages = new HashMap<>();
 
