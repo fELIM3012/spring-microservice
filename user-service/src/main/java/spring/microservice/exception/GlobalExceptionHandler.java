@@ -22,9 +22,4 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Mono<BaseResponse<String>> handleGeneralException(Exception ex) {
-        return super.handleGeneralException(ex);
-    }
 }
